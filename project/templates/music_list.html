@@ -1,0 +1,10 @@
+<h2>Music Library</h2>
+<ul>
+    {% for music in music_files %}
+        <li>
+            <img src="{{ music.cover_image.url }}" alt="Cover" width="50"> 
+            {{ music.title }} - {{ music.artist.name }}
+            <a href="{{ music.file.url }}" download>Download</a>
+        </li>
+    {% endfor %}
+</ul>

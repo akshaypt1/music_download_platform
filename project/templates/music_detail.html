@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ music.title }} - Music Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .music-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .cover-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            margin: 0;
+            color: #333;
+        }
+        .audio-player {
+            margin-top: 20px;
+            width: 100%;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .similar-songs {
+            margin-top: 30px;
+        }
+        .song-list {
+            list-style: none;
+            padding: 0;
+        }
+        .song-list li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .song-list li:last-child {
+            border-bottom: none;
+        }
+        .play-btn {
+            color: #28a745;
+            cursor: pointer;
+        }
+        .play-btn:hover {
+            color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="music-header">
+            <img src="{{ music.cover_image.url }}" alt="Album Cover" class="cover-image">
+            <div>
+                <h2>{{ music.title }}</h2>
+                <p>Artist: <strong>{{ music.artist.name }}</strong></p>
+                <p>Genre: <strong>{{ music.genre }}</strong></p>
+            </div>
+        </div>
+
+        <!-- Audio Player -->
+        <audio controls class="audio-player">
+            <source src="{{ music.file.url }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <!-- Download Button -->
+        <a href="{{ music.file.url }}" class="btn" download>
+            <i class="fas fa-download"></i> Download Song
+        </a>
+
+        <!-- Similar Songs Section -->
+        <div class="similar-songs">
+            <h3>Similar Songs</h3>
+            <ul class="song-list">
+                {% for song in similar_songs %}
+                <li>
+                    <span>{{ song.title }} - {{ song.artist.name }}</span>
+                    <a href="{% url 'music_detail' song.id %}" class="play-btn">
+                        <i class="fas fa-play"></i> Play
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
