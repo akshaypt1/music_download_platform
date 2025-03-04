@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
@@ -44,8 +44,20 @@ def signup(request):
             return redirect('login')
 
     return render(request, 'signup.html')
+# def home(request):
+#     return render(request, 'home.html')
 def home(request):
-    return render(request, 'home.html')
+    # Set your display limits here
+    LATEST_LIMIT = 6  # Show 5 latest songs
+    TRENDING_LIMIT = 6  # Show 6 trending songs
+    
+    trending_music = Music.objects.filter(is_trending=True)[:TRENDING_LIMIT]
+    latest_music = Music.objects.order_by('-upload_date')[:LATEST_LIMIT]
+    
+    return render(request, 'home.html', {
+        'music_list': trending_music,
+        'latest_music': latest_music
+    })
 
 # Upload music
 def upload_music(request):
@@ -56,11 +68,15 @@ def upload_music(request):
             return redirect('music_list')
     else:
         form = MusicUploadForm()
-    return render(request, 'music/upload.html', {'form': form})
+    return render(request, 'upload.html', {'form': form})
 
 # List and download music
 def music_list(request):
     music_files = Music.objects.all()
-    return render(request, 'music/music_list.html', {'music_files': music_files})
+    return render(request, 'music_list.html', {'music_files': music_files})
+
+def music_detail(request, music_id):
+    music = get_object_or_404(Music, id=music_id)
+    return render(request, 'music_detail.html', {'music': music})
     
 

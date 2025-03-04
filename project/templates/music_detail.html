@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ music.title }} - Music Details</title>
@@ -9,13 +10,18 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
+            background-image: url("{% static 'images/image3.webp' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             margin: 0;
             padding: 0;
         }
         .container {
             max-width: 800px;
             margin: 50px auto;
-            background: #fff;
+            background: #a8c4d659;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -86,7 +92,7 @@
             <img src="{{ music.cover_image.url }}" alt="Album Cover" class="cover-image">
             <div>
                 <h2>{{ music.title }}</h2>
-                <p>Artist: <strong>{{ music.artist.name }}</strong></p>
+                <p>Artist: <strong>{{ music.artist }}</strong></p>
                 <p>Genre: <strong>{{ music.genre }}</strong></p>
             </div>
         </div>
@@ -103,7 +109,7 @@
         </a>
 
         <!-- Similar Songs Section -->
-        <div class="similar-songs">
+        <!-- <div class="similar-songs">
             <h3>Similar Songs</h3>
             <ul class="song-list">
                 {% for song in similar_songs %}
@@ -115,7 +121,7 @@
                 </li>
                 {% endfor %}
             </ul>
-        </div>
+        </div> -->
     </div>
 
 </body>
