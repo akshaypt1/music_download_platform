@@ -172,8 +172,12 @@
     <div class="container">
         <h2>Music Library</h2>
         <div class="search-container">
-            <form action="{% url 'music_list' %}" method="GET" class="search-form">
+            <!-- <form action="{% url 'music_list' %}" method="GET" class="search-form">
                 <input type="text" name="query" class="search-input" placeholder="Search music...">
+                <button type="submit" class="search-btn">Search</button>
+            </form> -->
+            <form method="GET" action="{% url 'music_list' %}" class="search-form">
+                <input type="text" name="q" class="search-input" placeholder="Search music..." value="{{ query }}">
                 <button type="submit" class="search-btn">Search</button>
             </form>
         </div>

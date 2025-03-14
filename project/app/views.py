@@ -7,6 +7,7 @@ from .models import Music
 from .forms import MusicUploadForm
 
 
+
 # Secure Login View
 def login(request):
     if request.method == 'POST':
@@ -44,8 +45,7 @@ def signup(request):
             return redirect('login')
 
     return render(request, 'signup.html')
-# def home(request):
-#     return render(request, 'home.html')
+
 def home(request):
     # Set your display limits here
     LATEST_LIMIT = 6  # Show 5 latest songs
@@ -72,11 +72,20 @@ def upload_music(request):
 
 # List and download music
 def music_list(request):
-    music_files = Music.objects.all()
-    return render(request, 'music_list.html', {'music_files': music_files})
+    query = request.GET.get('q', '')  # Get the search term from the request
+    if query:
+        music_files = Music.objects.filter(title__icontains=query)  # Case-insensitive search
+    else:
+        music_files = Music.objects.all()  # Show all music if no search query
+    return render(request, 'music_list.html', {'music_files': music_files, 'query':query})
 
 def music_detail(request, music_id):
     music = get_object_or_404(Music, id=music_id)
     return render(request, 'music_detail.html', {'music': music})
     
 
+def password_reset(request):
+    return render(request,'forgot_password.html')
+def logout_view(request):
+    messages.success(request, "You have been logged out.")
+    return redirect('login')
